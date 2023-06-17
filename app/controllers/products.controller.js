@@ -1,0 +1,24 @@
+const sequelize = require("../configs/db.config");
+
+//Defined model
+const product = require("../models/product.model");
+
+async function fetchProductsData(req, res) {
+
+  //Fetch product data using raw query
+  const [result,metadata] = await sequelize.query(`select * ,
+    (select coalesce(sum(po.output_quantity),0) as in from production_outputs po where po.product_id = p.product_id),
+    (select coalesce(sum(si.quantity), 0) as out from sales_items si where si.product_id = p.product_id),
+    (select coalesce(sum(rp.quantity), 0) as repros from repro_products rp where rp.product_id = p.product_id),
+    (p.initial_stocks + (select coalesce(sum(po.output_quantity),0) as in from production_outputs po where po.product_id = p.product_id) -
+    (select coalesce(sum(si.quantity), 0) as out from sales_items si where si.product_id = p.product_id) - 
+     (select coalesce(sum(rp.quantity), 0) as repros from repro_products rp where rp.product_id = p.product_id)) as current_stocks
+    from products p`);
+
+  res.status(200).json(result);
+}
+
+//Export the functions
+module.exports = {
+  fetchProductsData,
+};
