@@ -1,7 +1,7 @@
 const sequelize = require("../configs/db.config");
 
 //Defined models
-const { packaging, releasedPackaging } = require("../models/packaging.model");
+const { Packaging, ReleasedPackagings } = require("../models/packaging.model");
 
 async function fetchPackagingDatas(req, res) {
   
@@ -16,6 +16,10 @@ async function fetchPackagingDatas(req, res) {
        (select coalesce(sum(rp2.quantity_returned), 0) as returned  from returned_packagings rp2 where rp2.packaging_id = p.packaging_id) )as current_stocks 
     from packagings p  `);
   res.status(200).json(result);
+
+
+
+ 
 }
 
 //Export function that used

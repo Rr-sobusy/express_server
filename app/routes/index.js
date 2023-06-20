@@ -15,7 +15,7 @@ const Sales = require('../controllers/sales.controller')
 
 
 
-/*******************   REGISTER YOUR ROUTES HERE! ********************* */
+/*******************   REGISTER ROUTES HERE! ********************* */
 
 //Packaging routes
 router.get('/api/getpackagings', Packaging.fetchPackagingDatas)
@@ -25,10 +25,12 @@ router.get('/api/getpackagings', Packaging.fetchPackagingDatas)
 
 //Product routes
 router.get('/api/getproducts', Product.fetchProductsData)
+router.post('/api/addnewproduct' , Product.AddNewProduct)
 
 
 //Sales Routes
 router.get('/api/getsales', Sales.fetchSalesDatas)
+router.post('/api/addnewsalesinstance' , Sales.addNewSales)
 
 
 

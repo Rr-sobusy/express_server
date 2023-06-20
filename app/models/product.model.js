@@ -7,14 +7,16 @@ const {DataTypes} = require('sequelize')
 const Products = sequelize.define('products',{
         product_id : {
             type : DataTypes.NUMBER,
-            primaryKey : true
+            primaryKey : true,
+            autoIncrement : true
         },
         product_name : {
             type : DataTypes.CHAR
         },
         initial_stocks : {
             type : DataTypes.NUMBER
-        }
+        },
+        packaging_size : DataTypes.NUMBER
 },{
     timestamps : false
 })

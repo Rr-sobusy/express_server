@@ -15,13 +15,6 @@ const Packaging = sequelize.define('packagings',{
     initial_stocks : {
         type : DataTypes.NUMBER
     },
-    // current_stocks : {
-    //     type : DataTypes.VIRTUAL,
-    //     get(){
-    //         const set = sequelize.query(`Select Sum(quantity_released) from released_packagings`)
-    //         return set.sum
-    //     }
-    // }
 },{
     timestamps : false
 })
@@ -31,6 +24,9 @@ const ReleasedPackagings = sequelize.define('released_packagings',{
             primaryKey : true,
             type : DataTypes.NUMBER
         },
+        packaging_id : {
+            type : DataTypes.NUMBER
+        }
 
 },{
     timestamps : false
@@ -42,6 +38,6 @@ const ReleasedPackagings = sequelize.define('released_packagings',{
 
 //Export the defined model/s
 module.exports =  {
-    packaging : Packaging,
-    releasedPackaging : ReleasedPackagings
+    Packaging,
+    ReleasedPackagings
 }
