@@ -3,7 +3,7 @@ const { Sequelize, Model } = require("sequelize");
 
 //Configuratin
 const sequelize = new Sequelize("umpvqucx", "umpvqucx", "96vkhTklkMpTk4xP4UtDcho-WjlUyptA", {
-  host: "	tiny.db.elephantsql.com",
+  host: "tiny.db.elephantsql.com",
   dialect: "postgres",
   dialectOptions: {
     useUTC: false,
