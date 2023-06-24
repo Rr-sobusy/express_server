@@ -20,7 +20,7 @@ async function fetchProductsData(req, res) {
   res.json(result)
 }
 
-//Add New Product
+//Add New Productssssssssssssssssssssss
 async function AddNewProduct(req, res) {
   //Request bodies
   const { productName, initialStocks, packagingSize } = req.body;
