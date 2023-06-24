@@ -2,8 +2,8 @@
 const { Sequelize, Model } = require("sequelize");
 
 //Configuratin
-const sequelize = new Sequelize("umpvqucx", "umpvqucx", "96vkhTklkMpTk4xP4UtDcho-WjlUyptA", {
-  host: "tiny.db.elephantsql.com",
+const sequelize = new Sequelize("nfic_db", "postgres", "3J^3Pm^Mp5", {
+  host: "localhost",
   dialect: "postgres",
   dialectOptions: {
     useUTC: false,

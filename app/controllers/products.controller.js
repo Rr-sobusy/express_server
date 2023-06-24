@@ -1,4 +1,3 @@
-const { json } = require("body-parser");
 const sequelize = require("../configs/db.config");
 
 //Defined model
