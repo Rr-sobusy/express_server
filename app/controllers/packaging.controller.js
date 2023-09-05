@@ -13,8 +13,9 @@ async function fetchPackagingDatas(req, res) {
     (select coalesce(sum(rp2.quantity_returned), 0) as returned  from returned_packagings rp2 where rp2.packaging_id = p.packaging_id),
     (p.initial_stocks + (select coalesce(sum(dp.delivered_quantity),0) as in from delivered_packagings dp where dp.packaging_id = p.packaging_id) -
       (select coalesce(sum(rp.quantity_released), 0) as out from released_packagings rp where rp.packaging_id = p.packaging_id) +
-       (select coalesce(sum(rp2.quantity_returned), 0) as returned  from returned_packagings rp2 where rp2.packaging_id = p.packaging_id) )as current_stocks 
-    from packagings p  `);
+       (select coalesce(sum(rp2.quantity_returned), 0) as returned  from returned_packagings rp2 where rp2.packaging_id = p.packaging_id) + 
+          (select coalesce(sum(pa.adjustment_value), 0) as adjusted from packaging_adjustments pa where pa.packaging_id = p.packaging_id) )as current_stocks 
+    from packagings p order by p.packaging_name asc  `);
   res.status(200).json(result);
 
 

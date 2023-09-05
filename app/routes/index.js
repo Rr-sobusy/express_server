@@ -1,39 +1,36 @@
 //Import express routing modules
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 //Controller imports
 
 //Packaging
-const Packaging = require('../controllers/packaging.controller')
+const Packaging = require("../controllers/packaging.controller");
 
 //Products
-const Product = require('../controllers/products.controller')
+const Product = require("../controllers/products.controller");
 
 //Sales
-const Sales = require('../controllers/sales.controller')
+const Sales = require("../controllers/sales.controller");
 
-
+//Production
+const Production = require("../controllers/production.controller");
 
 /*******************   REGISTER ROUTES HERE! ********************* */
 
 //Packaging routes
-router.get('/api/getpackagings', Packaging.fetchPackagingDatas)
-
-
-
+router.get("/api/getpackagings", Packaging.fetchPackagingDatas);
 
 //Product routes
-router.get('/api/getproducts', Product.fetchProductsData)
-router.post('/api/addnewproduct' , Product.AddNewProduct)
-
+router.get("/api/getproducts", Product.fetchProductsData);
+router.post("/api/addnewproduct", Product.AddNewProduct);
 
 //Sales Routes
-router.get('/api/getsales', Sales.fetchSalesDatas)
-router.post('/api/addnewsalesinstance' , Sales.addNewSales)
+router.get("/api/getsales", Sales.fetchSalesDatas);
+router.post("/api/addnewsalesinstance", Sales.addNewSales);
+router.get('/api/getbestsoldproducts' , Sales.getTopSoldProducts)
 
-
-
-
+//Production Routes
+router.get("/api/getproductiondatas", Production.fetchProductionDetails);
 
 module.exports = router;

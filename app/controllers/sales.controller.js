@@ -88,7 +88,15 @@ async function addNewSales(req, res) {
   res.json("success");
 }
 
+async function getTopSoldProducts(req,res){
+    const [result,metaData] = await sequelize.query(`select p.product_id ,p.product_name , sum(si.quantity * p.packaging_size) as total_sold from products p 
+    left join sales_items si on si.product_id = p.product_id group by p.product_id 
+    order by sum(si.quantity * p.packaging_size) desc`)
+    res.send(result)
+}
+
 module.exports = {
   fetchSalesDatas,
   addNewSales,
+  getTopSoldProducts
 };
