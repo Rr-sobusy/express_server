@@ -28,9 +28,14 @@ router.post("/api/addnewproduct", Product.AddNewProduct);
 //Sales Routes
 router.get("/api/getsales", Sales.fetchSalesDatas);
 router.post("/api/addnewsalesinstance", Sales.addNewSales);
-router.get('/api/getbestsoldproducts' , Sales.getTopSoldProducts)
+router.get("/api/getbestsoldproducts", Sales.getTopSoldProducts);
+router.get("/api/getsalespermonth", Sales.getSalesPerMonth);
+router.get("/api/getsalesthisweek", Sales.salesThisWeek);
 
 //Production Routes
 router.get("/api/getproductiondatas", Production.fetchProductionDetails);
+
+//Customer Routes
+router.get("/api/getcustomerstats", Sales.customerStats);
 
 module.exports = router;

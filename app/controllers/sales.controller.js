@@ -6,8 +6,6 @@ const sequelize = require("../configs/db.config");
 
 //import the defined models
 const { Sales, SalesItems } = require("../models/sales.model");
-const { Products } = require("../models/product.model");
-const { StocksChange } = require("../models/stocksFlow.model");
 
 async function fetchSalesDatas(req, res) {
   //Define relationships
@@ -88,15 +86,53 @@ async function addNewSales(req, res) {
   res.json("success");
 }
 
-async function getTopSoldProducts(req,res){
-    const [result,metaData] = await sequelize.query(`select p.product_id ,p.product_name , sum(si.quantity * p.packaging_size) as total_sold from products p 
+async function getTopSoldProducts(req, res) {
+  const [result, metaData] =
+    await sequelize.query(`select p.product_id ,p.product_name , sum(si.quantity * p.packaging_size) as total_sold from products p 
     left join sales_items si on si.product_id = p.product_id group by p.product_id 
-    order by sum(si.quantity * p.packaging_size) desc`)
-    res.send(result)
+    order by sum(si.quantity * p.packaging_size) desc`);
+  res.send(result);
+}
+
+async function getSalesPerMonth(req, res) {
+  const [result, metadata] = await sequelize.query(`SELECT
+  EXTRACT(MONTH FROM ps."createdAt"::date) AS month,
+  SUM(si.quantity * p.packaging_size / 1000) AS total_sales
+FROM
+  product_sales ps 
+left join sales_items si on si.sales_id = ps.sales_id 
+join products p on p.product_id = si.product_id
+where extract(YEAR from ps."createdAt"::date) = '2023'
+GROUP BY
+  EXTRACT(MONTH FROM  ps."createdAt"::date)
+ORDER BY
+ month;`);
+  res.send(result);
+}
+
+async function salesThisWeek(req,res){
+  const [result,metadata] = await sequelize.query(`select ps."createdAt"::date as sales_date, sum(si.quantity * p.packaging_size) as sales_this_day from product_sales ps 
+  left join sales_items si on si.sales_id = ps.sales_id
+  join products p on p.product_id = si.product_id group by sales_date order by sales_date desc limit 7`)
+
+  res.send(result)
+}
+
+async function customerStats(req,res){
+    const [result,metadata] = await sequelize.query(`select c.customer_id , c.customer_name ,sum(si.quantity * p.packaging_size) as total_bought 
+    from customers c 
+  join product_sales ps on ps.customer_id = c.customer_id 
+  join sales_items si on si.sales_id = ps.sales_id 
+  join products p on p.product_id = si.product_id 
+  group by c.customer_name, c.customer_id  order by customer_name asc`)
+    res.json(result)
 }
 
 module.exports = {
   fetchSalesDatas,
   addNewSales,
-  getTopSoldProducts
+  getTopSoldProducts,
+  getSalesPerMonth,
+  customerStats,
+  salesThisWeek
 };
